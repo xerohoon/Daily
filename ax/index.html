@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>양산자이파크팰리체 AX 사례</title>
+<style>
+:root{--ink:#1E2229;--sub:#6B6F76;--line:#E6E5E3;--soft:#F7F6F4;--soft2:#EFEEEB;--acc:#E8622C;--acc2:#FCEDE5;--blue:#2783DE;--blue2:#E5F2FC}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#E9E8E5;overflow:hidden;font-family:Pretendard,"Malgun Gothic","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+#stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;transform-origin:0 0}
+.slide{position:absolute;inset:0;background:#fff;padding:72px 88px;display:none;overflow:hidden}
+.slide.active{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.slide.active{animation:none}}
+em{font-style:normal;color:var(--acc)}
+.lab{font-size:18px;font-weight:700;color:var(--acc);letter-spacing:.02em;display:flex;gap:10px;align-items:center}
+.head h2,.side h2{font-size:46px;font-weight:800;letter-spacing:-.02em;line-height:1.25;margin-top:14px}
+.chip{display:inline-block;padding:7px 14px;border:1.5px solid var(--ink);border-radius:8px;font-size:17px;font-weight:700;background:#fff}
+.x{margin:0 8px;color:var(--acc);font-weight:800;font-size:20px}
+.ph{color:#A8A6A1!important}
+/* cover */
+.cover{display:none;padding:0}
+.cover.active{display:grid;grid-template-columns:1fr 560px}
+.cv-l{padding:110px 88px;display:flex;flex-direction:column;justify-content:center}
+.kicker{font-size:20px;font-weight:700;color:var(--acc)}
+.cover h1{font-size:92px;line-height:1.12;font-weight:800;letter-spacing:-.03em;margin:24px 0 28px}
+.sub{font-size:24px;color:var(--sub)}
+.who{margin-top:64px;font-size:20px;font-weight:600}
+.cv-r{background:var(--soft);color:var(--ink);border-left:1px solid var(--line);padding:110px 64px;display:flex;flex-direction:column;justify-content:center;gap:0}
+.cv-row{display:flex;gap:24px;align-items:baseline;padding:22px 0;border-bottom:1px solid var(--line);font-size:22px;font-weight:600}
+.cv-row:last-child{border-bottom:0}
+.cv-row b{color:var(--acc);font-size:20px;min-width:30px}
+/* overview */
+.ovs.active{background:var(--soft)}
+.ov{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;margin-top:52px;height:560px}
+.ov-card{all:unset;box-sizing:border-box;cursor:pointer;background:#fff;border:1px solid var(--line);border-top:5px solid var(--acc);border-radius:12px;padding:28px 26px;display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s}
+.ov-card:hover,.ov-card:focus-visible{box-shadow:0 1px 2px rgba(0,0,0,.05),0 8px 20px rgba(0,0,0,.06)}
+.ov-top{display:flex;justify-content:space-between;align-items:center}
+.ov-n{font-size:48px;font-weight:800;color:var(--acc);line-height:1;letter-spacing:-.02em}
+.ov-c{font-size:14px;font-weight:700;color:var(--acc);background:var(--acc2);border-radius:6px;padding:5px 10px}
+.ov-f{margin:26px 0 24px;height:150px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;gap:2px}
+.ft{font-size:25px;font-weight:800;line-height:1.3;letter-spacing:-.01em}
+.fx{font-size:18px;font-weight:800;color:var(--acc);line-height:1.1}
+.ov-card ul{list-style:none;border-top:1px solid var(--line);padding-top:20px;display:flex;flex-direction:column;gap:10px}
+.ov-card li{font-size:19px;font-weight:600;display:flex;align-items:center;gap:10px;color:#3A3F47}
+.ov-card li:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--acc);flex:0 0 6px}
+/* section */
+.sec.active{display:grid;grid-template-columns:320px 1fr;grid-template-rows:auto 1fr;column-gap:32px;row-gap:24px;padding:48px 56px 40px}
+.sec .side{display:contents}
+.sec .side>.lab,.sec .side>h2{grid-column:1/-1}
+.sec .side>.lab{grid-row:1;align-self:start}
+.sec .side>h2{grid-row:1;margin:40px 0 0!important}
+.sec .cases{grid-column:1;grid-row:2}
+.sec .stagev{grid-column:2;grid-row:2;justify-content:flex-start}
+.side{display:flex;flex-direction:column;min-height:0}
+.num{background:var(--acc);color:#fff;border-radius:6px;padding:2px 10px}
+.side h2{font-size:36px;white-space:nowrap}
+.tools{margin:18px 0 22px}
+.cases{display:flex;flex-direction:column;gap:10px;flex:1;min-height:0}
+.case{border:1px solid var(--line);border-radius:10px;padding:14px 18px;cursor:pointer;background:#fff;transition:border-color .15s,background .15s}
+.case:focus-visible{outline:2px solid var(--blue)}
+.case.on{border-color:var(--acc);background:var(--acc2)}
+.step{margin-left:6px;font-size:15px;color:var(--sub);font-weight:600}
+.c-name{font-size:24px;font-weight:800}
+
+.sec:not(.multi) .c-name{font-size:30px}.sec:not(.multi) .case{padding:28px 26px;cursor:default;background:var(--soft);border-color:var(--line)}.sec:not(.multi) .c-body p{font-size:18px;margin-top:18px}.sec:not(.multi) .c-body b{font-size:13px}
+.multi .cases{gap:10px}.multi .case{padding:14px 18px}.multi .c-name{font-size:21px}
+.c-body{display:block;margin-top:8px}
+.case.on .c-body,.sec:not(.multi) .c-body{display:block}
+.c-body p{font-size:15px;line-height:1.45;display:flex;flex-direction:column;gap:2px;margin-top:8px}
+.c-body b{font-size:12px;font-weight:800;color:var(--acc);letter-spacing:.04em}
+.arr{font-size:26px;color:var(--sub)}
+.stagev{position:relative;display:flex;flex-direction:column;justify-content:center}
+.vslot{display:none;width:100%;max-height:100%;aspect-ratio:16/9;background:var(--soft);border:1.5px dashed #D3D1CC;border-radius:12px;overflow:hidden;position:relative}
+.vslot.on{display:block}
+.vslot video,.vslot iframe{width:100%;height:100%;border:0;display:block;background:#000}
+.vempty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:var(--sub);font-size:18px;text-align:center}
+.vempty .play{width:84px;height:84px;border-radius:50%;border:2px solid var(--acc);display:flex;align-items:center;justify-content:center;font-size:30px;color:var(--acc);padding-left:5px}
+.vempty small{font-size:15px;color:#A8A6A1}
+.vslot:has(video),.vslot:has(iframe){background:#000;border:0}
+.vslot:has(.ytcard){background:#000;border:0}
+.ytcard{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-decoration:none}
+.ytcard img{width:100%;height:100%;object-fit:contain;opacity:.85}
+.ytplay{position:absolute;width:96px;height:68px;border-radius:18px;background:#FF0033;color:#fff;font-size:30px;display:flex;align-items:center;justify-content:center;padding-left:4px}
+.ytmsg{position:absolute;bottom:22px;color:#fff;font-size:17px;font-weight:600;background:rgba(0,0,0,.55);padding:8px 16px;border-radius:8px}
+body.editing .vslot{cursor:pointer}
+body.editing .vslot:has(video,iframe,.ytcard)::after{content:"클릭해서 영상 바꾸기";position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:flex-end;padding:16px;font-size:16px;font-weight:700;color:#fff;background:linear-gradient(rgba(0,0,0,.45),transparent 30%);z-index:5}
+.vcap{display:flex;align-items:center;gap:10px;margin-top:16px;font-size:18px;font-weight:700}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--acc)}
+body.editing .vslot{cursor:pointer;outline:2px dashed var(--acc);outline-offset:4px}
+/* summary */
+.sum-wrap{display:grid;grid-template-columns:1fr 360px;gap:40px;margin-top:32px}
+.bars{display:flex;flex-direction:column;gap:5px}
+.bars-h,.bar{display:grid;grid-template-columns:210px 1fr 170px 90px;align-items:center;gap:16px;height:44px}
+.bar .bn{font-size:17px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .bn i{font-style:normal;color:var(--acc);font-size:13px;margin-right:8px}
+.track{position:relative;height:30px;background:var(--soft);border-radius:6px}
+.track .b1{position:absolute;left:0;top:0;bottom:0;background:#D9D7D3;border-radius:6px}
+.track .b2{position:absolute;left:0;top:0;bottom:0;background:var(--acc);border-radius:6px}
+.track .tx{position:absolute;left:12px;top:0;line-height:30px;font-size:13px;color:var(--sub);font-weight:600}
+.bars-h{font-size:13px;color:var(--sub);font-weight:700;height:22px;align-items:center}.bars-h span:nth-child(3),.bars-h span:nth-child(4){text-align:right}
+.bar .bt{font-size:16px;font-weight:700;text-align:right;white-space:nowrap;color:var(--sub)}.bar .bt .bf,.bar .bt .af{color:var(--ink)}
+.bar .bp{font-size:16px;font-weight:800;text-align:right;white-space:nowrap}
+.bar .bp small{font-size:12px;color:var(--sub);font-weight:600;margin-left:4px}
+.total{background:var(--acc2);color:var(--ink);border-radius:14px;padding:40px 36px;display:flex;flex-direction:column}
+.t-lab{font-size:18px;font-weight:700;color:var(--sub)}
+.t-row{display:flex;align-items:center;gap:18px;margin-top:28px}
+.t-row small{display:block;font-size:14px;color:var(--sub);font-weight:600;margin-bottom:4px}
+.t-row b{font-size:32px;font-weight:800;white-space:nowrap}
+.t-row div:nth-child(3) b{color:var(--acc)}
+
+.t-pct{margin-top:40px;display:flex;align-items:baseline;gap:10px}
+.t-pct b{font-size:80px;white-space:nowrap;font-weight:800;line-height:1;color:var(--acc);letter-spacing:-.03em}
+.t-pct span{font-size:26px;font-weight:700;white-space:nowrap}
+.t-note{margin-top:auto;font-size:14px;color:rgba(255,255,255,.55);line-height:1.5}
+.legend{display:flex;gap:20px;font-size:14px;color:var(--sub);margin-top:14px;font-weight:600}
+.legend span:before{content:"";display:inline-block;width:14px;height:10px;border-radius:3px;margin-right:6px;background:#D9D7D3}
+.legend span.a:before{background:var(--acc)}
+.kpi{display:grid;grid-template-columns:1fr 60px 1fr 1fr;gap:24px;align-items:center;margin-top:110px}
+.k{background:var(--soft);border-radius:14px;padding:40px 40px 44px}
+.k small{display:block;font-size:20px;font-weight:700;color:var(--sub)}
+.kv{display:flex;align-items:baseline;gap:8px;margin-top:18px;white-space:nowrap}
+.kv b{font-size:96px;font-weight:800;line-height:1;letter-spacing:-.03em}
+.kv span{font-size:28px;font-weight:700}
+.k-arr{font-size:44px;color:var(--sub);text-align:center}
+.k.hl{background:var(--acc2)}.k.hl b,.k.hl .kv span{color:var(--acc)}
+.k-note{margin-top:36px;font-size:17px;color:var(--sub)}
+/* end */
+.end.active{display:flex;flex-direction:column;padding:96px 88px}
+.end h2{font-size:64px;font-weight:800;line-height:1.25;letter-spacing:-.02em}
+.next{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:72px}
+.next>div{border-top:3px solid var(--ink);padding-top:24px}
+.next b{font-size:18px;color:var(--acc)}
+.next h3{font-size:30px;font-weight:800;margin:12px 0 12px}
+.next p{font-size:19px;color:var(--sub);line-height:1.5}
+.end-f{margin-top:auto;font-size:18px;color:var(--sub);font-weight:600}
+/* chrome */
+#nav{position:fixed;right:18px;bottom:16px;display:flex;gap:6px;z-index:10;align-items:center}
+#nav button{min-width:44px;height:40px;padding:0 14px;border:1px solid var(--line);background:#fff;border-radius:8px;font:inherit;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer}
+#nav button:hover{border-color:var(--ink)}
+#nav #edit.on{background:var(--acc);border-color:var(--acc);color:#fff}
+#pg{font-size:13px;color:var(--sub);margin-right:6px;font-weight:600}
+#prog{position:fixed;left:0;bottom:0;height:3px;background:var(--acc);z-index:10;transition:width .2s}
+body.present #nav{opacity:0}body.present #nav:hover{opacity:1}
+body.editing .e{outline:1px dashed #E8622C66;cursor:text;min-width:10px}
+body.editing .e:focus{outline:2px solid var(--acc)}
+#hint{position:fixed;left:18px;bottom:22px;font-size:13px;color:var(--sub);display:none;z-index:10}
+body.editing #hint{display:block}
+/* modal */
+#vm{position:fixed;inset:0;background:rgba(20,22,26,.5);display:none;align-items:center;justify-content:center;z-index:20}
+#vm.open{display:flex}
+#vm .box{background:#fff;border-radius:12px;padding:28px;width:520px;font-size:15px}
+#vm h4{font-size:20px;margin-bottom:6px}
+#vm p{color:var(--sub);line-height:1.5;margin-bottom:16px;font-size:14px}
+#vm label{display:block;font-weight:700;margin:14px 0 6px}
+#vm input[type=text]{width:100%;height:44px;border:1px solid var(--line);border-radius:8px;padding:0 12px;font:inherit}
+#vm .row{display:flex;gap:8px;margin-top:22px;justify-content:flex-end}
+#vm button{height:44px;padding:0 16px;border-radius:8px;border:1px solid var(--line);background:#fff;font:inherit;font-weight:700;cursor:pointer}
+#vm .pri{background:var(--ink);color:#fff;border-color:var(--ink)}
+#vm .del{margin-right:auto;color:#C2453A}
+#vm .file{background:var(--soft);width:100%;text-align:left}
+</style></head>
+<body class="">
+<div id="stage" style="transform: translate(-50%, -50%) scale(1.00111); transform-origin: center center; left: 50%; top: 50%;">
+<section class="slide cover">
+ <div class="cv-l">
+  <div class="kicker e">AI 개선방향 (AX)</div>
+  <h1 class="e">양산자이파크팰리체<br><em>AX 사례</em></h1>
+  <p class="sub e">사례 11가지와 업무시간 단축 효과</p>
+ </div>
+ <div class="cv-r"><div class="cv-row"><b>01</b><span>PMX × 확장프로그램</span></div><div class="cv-row"><b>02</b><span>PMX × 확장프로그램 × 외부자료</span></div><div class="cv-row"><b>03</b><span>PMX × 확장프로그램 × Excel</span></div><div class="cv-row"><b>04</b><span>HTML</span></div><div class="cv-row"><b>05</b><span>프로그래밍</span></div></div>
+</section>
+<section class="slide ovs">
+ <div class="head"><div class="lab e">한눈에 보기</div><h2 class="e">도구 조합 5가지로 <em>11개 업무</em>를 바꿨습니다</h2></div>
+ <div class="ov"><button class="ov-card" data-go="sec01"><div class="ov-top"><span class="ov-n">01</span><span class="ov-c">사례 4</span></div><div class="ov-f"><span class="ft">PMX</span><span class="fx">×</span><span class="ft">확장프로그램</span></div><ul><li><span class="e">위험성평가</span></li><li><span class="e">출역</span></li><li><span class="e">장비관리</span></li><li><span class="e">유소견자 관리</span></li></ul></button><button class="ov-card" data-go="sec02"><div class="ov-top"><span class="ov-n">02</span><span class="ov-c">사례 2</span></div><div class="ov-f"><span class="ft">PMX</span><span class="fx">×</span><span class="ft">확장프로그램</span><span class="fx">×</span><span class="ft">외부자료</span></div><ul><li><span class="e">노무비닷컴</span></li><li><span class="e">혹서기 관리</span></li></ul></button><button class="ov-card" data-go="sec03"><div class="ov-top"><span class="ov-n">03</span><span class="ov-c">사례 1</span></div><div class="ov-f"><span class="ft">PMX</span><span class="fx">×</span><span class="ft">확장프로그램</span><span class="fx">×</span><span class="ft">Excel</span></div><ul><li><span class="e">건강기록 자동입력</span></li></ul></button><button class="ov-card" data-go="sec04"><div class="ov-top"><span class="ov-n">04</span><span class="ov-c">사례 1</span></div><div class="ov-f"><span class="ft">HTML</span></div><ul><li><span class="e">안전관리비</span></li></ul></button><button class="ov-card" data-go="sec05"><div class="ov-top"><span class="ov-n">05</span><span class="ov-c">사례 3</span></div><div class="ov-f"><span class="ft">프로그래밍</span></div><ul><li><span class="e">근골격계</span></li><li><span class="e">MSDS 경고표지</span></li><li><span class="e">AI CCTV</span></li></ul></button></div>
+</section>
+<section class="slide sec multi" id="sec01">
+ <div class="side">
+  <div class="lab"><span class="num">01</span><span class="e">AX 사례</span></div>
+  <h2 class="e">PMX × 확장프로그램</h2>
+  <div class="cases"><div class="case on" data-id="risk" tabindex="0">
+  <div class="c-name e">위험성평가</div>
+  <div class="c-body"><p><b>Before</b><span class="e ph">기존 업무 방식을 입력하세요</span></p><p><b>After</b><span class="e ph">개선된 방식을 입력하세요</span></p></div>
+</div><div class="case" data-id="work" tabindex="0">
+  <div class="c-name e">출역</div>
+  <div class="c-body"><p><b>Before</b><span class="e ph">기존 업무 방식을 입력하세요</span></p><p><b>After</b><span class="e ph">개선된 방식을 입력하세요</span></p></div>
+</div><div class="case" data-id="equip" tabindex="0">
+  <div class="c-name e">장비관리</div>
+  <div class="c-body"><p><b>Before</b><span class="e ph">기존 업무 방식을 입력하세요</span></p><p><b>After</b><span class="e ph">개선된 방식을 입력하세요</span></p></div>
+</div><div class="case" data-id="health" tabindex="0">
+  <div class="c-name e">유소견자 관리</div>
+  <div class="c-body"><p><b>Before</b><span class="e ph">기존 업무 방식을 입력하세요</span></p><p><b>After</b><span class="e ph">개선된 방식을 입력하세요</span></p></div>
+</div></div>
+ </div>
+ <div class="stagev"><div class="vslot on" data-id="risk" data-src="https://youtube.com/shorts/y5sbkFoFBXw?si=GekXJqqQAUmkDyYn"></div><div class="vslot" data-id="work" data-src=""></div><div class="vslot" data-id="equip" data-src=""></div><div class="vslot" data-id="health" data-src=""></div></div>
+</section>
+<section class="slide sec" id="sec02">
+ <div class="side">
+  <div class="lab"><span class="num">02</span><span class="e">AX 사례</span><span class="step">1 / 2</span></div>
+  <h2 class="e">PMX × 확장프로그램 × 외부자료</h2>
+  <div class="cases"><div class="case on" data-id="nomu" tabindex="0">
+  <div class="c-name e">노무비닷컴</div>
+  <div class="c-body"><p><b>Before</b><span class="e ph">기존 업무 방식을 입력하세요</span></p><p><b>After</b><span class="e ph">개선된 방식을 입력하세요</span></p></div>
+</div></div>
+ </div>
+ <div class="stagev"><div class="vslot on" data-id="nomu" data-src=""></div></div>
+</section>
+<section class="slide sec">
+ <div class="side">
+  <div class="lab"><span class="num">02</span><span class="e">AX 사례</span><span class="step">2 / 2</span></div>
+  <h2 class="e">PMX × 확장프로그램 × 외부자료</h2>
+  <div class="cases"><div class="case on" data-id="heat" tabindex="0">
+  <div class="c-name e">혹서기 관리</div>
+  <div class="c-body"><p><b>Before</b><span class="e ph">기존 업무 방식을 입력하세요</span></p><p><b>After</b><span class="e ph">개선된 방식을 입력하세요</span></p></div>
+</div></div>
+ </div>
+ <div class="stagev"><div class="vslot on" data-id="heat" data-src=""></div></div>
+</section>
+<section class="slide sec" id="sec03">
+ <div class="side">
+  <div class="lab"><span class="num">03</span><span class="e">AX 사례</span></div>
+  <h2 class="e">PMX × 확장프로그램 × Excel</h2>
+  <div class="cases"><div class="case on" data-id="hrec" tabindex="0">
+  <div class="c-name e">건강기록 자동입력</div>
+  <div class="c-body"><p><b>Before</b><span class="e ph">기존 업무 방식을 입력하세요</span></p><p><b>After</b><span class="e ph">개선된 방식을 입력하세요</span></p></div>
+</div></div>
+ </div>
+ <div class="stagev"><div class="vslot on" data-id="hrec" data-src=""></div></div>
+</section>
+<section class="slide sec" id="sec04">
+ <div class="side">
+  <div class="lab"><span class="num">04</span><span class="e">AX 사례</span></div>
+  <h2 class="e">HTML</h2>
+  <div class="cases"><div class="case on" data-id="sfee" tabindex="0">
+  <div class="c-name e">안전관리비</div>
+  <div class="c-body"><p><b>Before</b><span class="e ph">기존 업무 방식을 입력하세요</span></p><p><b>After</b><span class="e ph">개선된 방식을 입력하세요</span></p></div>
+</div></div>
+ </div>
+ <div class="stagev"><div class="vslot on" data-id="sfee" data-src=""></div></div>
+</section>
+<section class="slide sec" id="sec05">
+ <div class="side">
+  <div class="lab"><span class="num">05</span><span class="e">AX 사례</span><span class="step">1 / 3</span></div>
+  <h2 class="e">프로그래밍</h2>
+  <div class="cases"><div class="case on" data-id="msk" tabindex="0">
+  <div class="c-name e">근골격계</div>
+  <div class="c-body"><p><b>Before</b><span class="e ph">기존 업무 방식을 입력하세요</span></p><p><b>After</b><span class="e ph">개선된 방식을 입력하세요</span></p></div>
+</div></div>
+ </div>
+ <div class="stagev"><div class="vslot on" data-id="msk" data-src=""></div></div>
+</section>
+<section class="slide sec">
+ <div class="side">
+  <div class="lab"><span class="num">05</span><span class="e">AX 사례</span><span class="step">2 / 3</span></div>
+  <h2 class="e">프로그래밍</h2>
+  <div class="cases"><div class="case on" data-id="msds" tabindex="0">
+  <div class="c-name e">MSDS 경고표지</div>
+  <div class="c-body"><p><b>Before</b><span class="e ph">기존 업무 방식을 입력하세요</span></p><p><b>After</b><span class="e ph">개선된 방식을 입력하세요</span></p></div>
+</div></div>
+ </div>
+ <div class="stagev"><div class="vslot on" data-id="msds" data-src=""></div></div>
+</section>
+<section class="slide sec">
+ <div class="side">
+  <div class="lab"><span class="num">05</span><span class="e">AX 사례</span><span class="step">3 / 3</span></div>
+  <h2 class="e">프로그래밍</h2>
+  <div class="cases"><div class="case on" data-id="cctv" tabindex="0">
+  <div class="c-name e">AI CCTV</div>
+  <div class="c-body"><p><b>Before</b><span class="e ph">기존 업무 방식을 입력하세요</span></p><p><b>After</b><span class="e ph">개선된 방식을 입력하세요</span></p></div>
+</div></div>
+ </div>
+ <div class="stagev"><div class="vslot on" data-id="cctv" data-src=""></div></div>
+</section>
+<section class="slide sum">
+ <div class="head"><div class="lab e">효과</div><h2 class="e">반복업무 시간이 <em>이만큼</em> 줄었습니다</h2></div>
+ <div class="kpi">
+  <div class="k"><small class="e">기존</small><div class="kv"><b class="bf e ph">○○</b><span class="e">시간</span></div></div>
+  <div class="k-arr">→</div>
+  <div class="k"><small class="e">AX 적용 후</small><div class="kv"><b class="af e ph">○○</b><span class="e">시간</span></div></div>
+  <div class="k hl"><small class="e">단축</small><div class="kv"><b id="tPct">○○</b><span>%</span></div></div>
+ </div>
+ <p class="k-note e ph">기준을 입력하세요 (예: 월 기준, 11개 업무 합계)</p>
+</section>
+</div>
+<div id="prog" style="width: 27.2727%;"></div>
+<div id="hint">편집 모드 · 점선 글자 클릭해 수정 · 영상 칸 클릭해 영상 넣기 · Ctrl+S 저장</div>
+<div id="nav"><span id="pg">3 / 11</span><button id="edit" class="">편집</button><button id="save" title="수정한 내용을 HTML 파일로 저장">저장</button><button id="full" title="전체화면">전체화면</button><button id="prev" aria-label="이전">←</button><button id="next" aria-label="다음">→</button></div>
+<div id="vm" class=""><div class="box">
+ <h4>시연영상 넣기</h4>
+ <p>파일은 <b>이 HTML과 같은 폴더</b>에 두세요. 저장하면 파일 이름으로 연결됩니다.</p>
+ <button class="file" id="vmFile">📁 영상 파일 선택 (mp4 등)</button><input type="file" id="vmInput" accept="video/*" hidden="">
+ <label for="vmUrl">또는 링크 (유튜브·영상 주소)</label>
+ <input type="text" id="vmUrl" placeholder="https://youtu.be/...">
+ <div class="row"><button class="del" id="vmDel">영상 지우기</button><button id="vmCancel">취소</button><button class="pri" id="vmOk">적용</button></div>
+</div></div>
+<script>
+(function(){
+const S=[...document.querySelectorAll('.slide')];let cur=0;const stage=document.getElementById('stage');
+const blobs={};
+function fit(){const k=Math.min(innerWidth/1600,innerHeight/900);stage.style.transform=`scale(${k}) translate(-50%,-50%)`;stage.style.transformOrigin='0 0';stage.style.left='50%';stage.style.top='50%';stage.style.transform=`translate(-50%,-50%) scale(${k})`;stage.style.transformOrigin='center center'}
+addEventListener('resize',fit);fit();
+function show(i){cur=(i+S.length)%S.length;S.forEach((s,j)=>s.classList.toggle('active',j===cur));
+ document.querySelectorAll('video').forEach(v=>{if(!S[cur].contains(v))v.pause()});
+ document.getElementById('pg').textContent=(cur+1)+' / '+S.length;document.getElementById('prog').style.width=((cur+1)/S.length*100)+'%';
+ if(S[cur].classList.contains('sum'))summary();}
+document.getElementById('next').onclick=()=>show(cur+1);document.getElementById('prev').onclick=()=>show(cur-1);
+document.getElementById('full').onclick=()=>{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()};
+addEventListener('keydown',e=>{
+ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();save();return}
+ if(document.body.classList.contains('editing')&&document.activeElement&&document.activeElement.isContentEditable)return;
+ if(document.getElementById('vm').classList.contains('open'))return;
+ if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();show(cur+1)}
+ if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(cur-1)}
+});
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{if(document.body.classList.contains('editing'))return;show(S.indexOf(document.getElementById(b.dataset.go)))});
+// cases -> video tabs
+document.querySelectorAll('.sec').forEach(sec=>{sec.querySelectorAll('.case').forEach(c=>{
+ const act=()=>{sec.querySelectorAll('.case').forEach(x=>x.classList.toggle('on',x===c));
+  sec.querySelectorAll('.vslot').forEach(v=>{const on=v.dataset.id===c.dataset.id;v.classList.toggle('on',on);if(!on){const vd=v.querySelector('video');vd&&vd.pause()}});};
+ c.addEventListener('click',e=>{if(e.target.isContentEditable)return;act()});c.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.target.isContentEditable)act()});
+ if(c.classList.contains('on'))act();
+})});
+// video slots
+function yt(u){const m=u.match(/(?:youtu\.be\/|v=|shorts\/|embed\/)([\w-]{11})/);return m?m[1]:null}
+function render(v){const src=v.dataset.src;v.innerHTML='';
+ if(!src){v.innerHTML='<div class="vempty"><div class="play">▶</div>시연영상<small>편집 모드에서 클릭해 영상을 넣으세요</small></div>';return}
+ const id=yt(src);
+ if(id){
+  if(location.protocol==='file:'){v.innerHTML='<a class="ytcard" href="https://www.youtube.com/watch?v='+id+'" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/'+id+'/hqdefault.jpg" alt="" onerror="this.remove()"><span class="ytplay">▶</span><span class="ytmsg">클릭하면 유튜브에서 재생됩니다</span></a>';
+   v.querySelector('a').addEventListener('click',e=>{if(document.body.classList.contains('editing'))e.preventDefault()});return}
+  v.innerHTML='<iframe src="https://www.youtube.com/embed/'+id+'?rel=0" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>';return}
+ if(/^https?:\/\/(drive\.google|.*sharepoint|.*vimeo)/.test(src)&&!/\.(mp4|webm|mov)(\?|$)/i.test(src)){let s=src.replace('/view','/preview');v.innerHTML='<iframe src="'+s+'" allow="autoplay; fullscreen" allowfullscreen></iframe>';return}
+ const vd=document.createElement('video');vd.controls=true;vd.preload='metadata';vd.src=blobs[src]||src;v.appendChild(vd);}
+document.querySelectorAll('.vslot').forEach(render);
+let target=null,pendingFile=null;const vm=document.getElementById('vm'),url=document.getElementById('vmUrl'),inp=document.getElementById('vmInput');
+document.querySelectorAll('.vslot').forEach(v=>v.addEventListener('click',e=>{if(!document.body.classList.contains('editing'))return;e.preventDefault();target=v;pendingFile=null;url.value=blobs[v.dataset.src]?'':v.dataset.src;document.getElementById('vmFile').textContent='📁 영상 파일 선택 (mp4 등)';vm.classList.add('open')},true));
+document.getElementById('vmFile').onclick=()=>inp.click();
+inp.onchange=()=>{const f=inp.files[0];if(!f)return;pendingFile=f;url.value='';document.getElementById('vmFile').textContent='📁 '+f.name;};
+document.getElementById('vmCancel').onclick=()=>vm.classList.remove('open');
+document.getElementById('vmDel').onclick=()=>{target.dataset.src='';render(target);vm.classList.remove('open')};
+document.getElementById('vmOk').onclick=()=>{if(pendingFile){blobs[pendingFile.name]=URL.createObjectURL(pendingFile);target.dataset.src=pendingFile.name}else target.dataset.src=url.value.trim();render(target);vm.classList.remove('open');inp.value=''};
+// numbers (summary slide)
+const num=t=>{const n=parseFloat(String(t).replace(/[^\d.]/g,''));return isNaN(n)?null:n};
+const fmt=m=>m>=60?(Math.round(m/6)/10)+'시간':Math.round(m*10)/10+'분';
+function summary(){const s=document.querySelector('.sum');const bf=num(s.querySelector('.bf').textContent),af=num(s.querySelector('.af').textContent);
+ document.getElementById('tPct').textContent=(bf&&af!=null)?Math.round((1-af/bf)*100):'○○';}
+document.addEventListener('input',e=>{const t=e.target;if(t.classList&&t.classList.contains('ph'))t.classList.remove('ph');
+ if(t.closest&&t.closest('.sum'))summary();
+ });
+document.addEventListener('focusin',e=>{const t=e.target;if(t.classList&&t.classList.contains('ph')&&document.body.classList.contains('editing')){const r=document.createRange();r.selectNodeContents(t);const sl=getSelection();sl.removeAllRanges();sl.addRange(r)}});
+summary();
+// edit / save
+const eb=document.getElementById('edit');
+function setEdit(on){document.body.classList.toggle('editing',on);eb.classList.toggle('on',on);eb.textContent=on?'편집 끝':'편집';document.querySelectorAll('.e').forEach(el=>{if(on)el.setAttribute('contenteditable','true');else el.removeAttribute('contenteditable')})}
+eb.onclick=()=>setEdit(!document.body.classList.contains('editing'));
+function save(){const was=document.body.classList.contains('editing');setEdit(false);
+ document.querySelectorAll('.vslot').forEach(v=>v.innerHTML='');
+ S.forEach(s=>s.classList.remove('active'));
+ const h='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
+ document.querySelectorAll('.vslot').forEach(render);show(cur);if(was)setEdit(true);
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([h],{type:'text/html'}));a.download='AX_발표자료.html';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1500);}
+document.getElementById('save').onclick=save;
+document.body.classList.remove('editing');document.body.className='';
+show(0);window.__show=show;
+})();
+</script>
+
+</body></html>
