@@ -1,3 +1,9 @@
-// GitHub 저장소의 소유자와 저장소 이름을 입력하세요.
-// 누구나 읽을 수 있는 공개 저장소에서 Issues를 켜야 합니다.
-window.ERP_CONFIG = {owner:'xerohoon', repo:'Daily', siteName:'양산 샘플 현장'};
+// Supabase의 Project URL과 publishable(또는 anon public) key만 입력하세요.
+// 절대로 secret/service_role 키나 비밀번호를 이 파일에 넣지 마세요.
+window.ERP_CONFIG = {
+  supabaseUrl: '',
+  supabasePublicKey: '',
+  // Supabase에서 미리 생성한 두 사용자의 이메일을 입력합니다.
+  headquartersEmail: '',
+  siteManagerEmail: ''
+};
