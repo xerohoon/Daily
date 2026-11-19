@@ -4,6 +4,6 @@ window.ERP_CONFIG = {
   supabaseUrl: 'https://jqdopeuzgahnkfxsmkmw.supabase.co',
   supabasePublicKey: 'sb_publishable_69BThGlou5jjcw5Q5hXVXA_bwlr5XfJ',
   // Supabase에서 미리 생성한 두 사용자의 이메일을 입력합니다.
-  headquartersEmail: '',
-  siteManagerEmail: ''
+ headquartersEmail: 'admin@tobang.com',
+siteManagerEmail: 'admin1@tobang.com'
 };
