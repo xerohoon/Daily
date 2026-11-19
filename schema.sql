@@ -61,3 +61,6 @@ insert into public.sites(id,name,client,work,manager) values
  ('11111111-1111-4111-8111-111111111111','양산 주거시설 신축공사','GS건설','철근콘크리트','현장 관리자'),
  ('22222222-2222-4222-8222-222222222222','부산 업무시설 신축공사','현대건설','철근콘크리트','현장 관리자');
 insert into public.notices(title,body) values ('이번 달 현장 실적 입력 안내','각 현장 관리자는 이번 달 인력과 기성 현황을 입력해 주세요. 이 공지는 샘플입니다.');
+insert into public.profiles (user_id, role, site_id) values
+  ('836f8e1e-cb1d-46e6-a00f-ed69f48c389d', 'hq', null),
+  ('c98f0e9c-d993-4216-b177-9a3049b78adb', 'site', '11111111-1111-4111-8111-111111111111');
